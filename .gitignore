@@ -1,0 +1,14 @@
+.idea/
+.gradle/
+projectName.iml
+/*.classpath
+/.classpath
+/.springBeans
+*.DS_Store
+*.iml
+build
+local.properties
+out
+target/
+
+lombok.config
