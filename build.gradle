@@ -1,15 +1,53 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id 'io.freefair.lombok' version '4.1.6' apply false
+    id 'org.springframework.boot' version '2.2.1.RELEASE' apply false
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+ext {
+    springCloudReleaseTrainVersion = 'Greenwich.RELEASE'
+    springFoxSwaggerVersion = '2.9.2'
+}
+
 apply plugin: 'java'
-apply plugin: 'application'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'io.freefair.lombok'
+apply plugin: 'org.springframework.boot'
 
-group 'ru.eugene.backend'
-version '1.0-SNAPSHOT'
-
-mainClassName = 'ru.eugene.backend.Application'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom(SpringBootPlugin.BOM_COORDINATES)
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudReleaseTrainVersion}"
+    }
+    dependencies {
+        dependency "io.springfox:springfox-swagger2:${springFoxSwaggerVersion}"
+        dependency "io.springfox:springfox-swagger-ui:${springFoxSwaggerVersion}"
+    }
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.5.1'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.data:spring-data-jpa'
+    implementation 'io.springfox:springfox-swagger2'
+    implementation 'io.springfox:springfox-swagger-ui'
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.liquibase:liquibase-core'
+    implementation 'javax.persistence:javax.persistence-api'
+}
+
+test {
+    useJUnitPlatform()
 }
