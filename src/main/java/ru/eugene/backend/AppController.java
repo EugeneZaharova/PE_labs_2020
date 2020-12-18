@@ -4,16 +4,22 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.eugene.backend.dto.Voucher;
+import ru.eugene.backend.model.VoucherModel;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "Vouchers")
 @RequestMapping("/vouchers")
 @RestController
-public class Controller {
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+public class AppController {
+    private final AppService service;
+
     @ApiOperation("Get all vouchers")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
@@ -21,7 +27,7 @@ public class Controller {
     })
     @GetMapping("list")
     List<Voucher> getAllVouchers() {
-        return Collections.singletonList(generateVoucherStub());
+        return fromModel(service.getAllVouchers());
     }
 
     @ApiOperation("Get voucher by id")
@@ -31,7 +37,7 @@ public class Controller {
     })
     @GetMapping("get")
     Voucher getVoucher(@RequestParam(name = "id") Long id) {
-        return generateVoucherStub();
+        return fromModel(service.getVoucher(id));
     }
 
     @ApiOperation("Add voucher")
@@ -41,7 +47,7 @@ public class Controller {
     })
     @PutMapping("add")
     void addVoucher(@RequestBody Voucher voucher) {
-
+        service.addVoucher(toModel(voucher));
     }
 
     @ApiOperation("Edit voucher")
@@ -51,7 +57,7 @@ public class Controller {
     })
     @PostMapping("edit")
     void editVoucher(@RequestBody Voucher voucher) {
-
+        service.editVoucher(toModel(voucher));
     }
 
     @ApiOperation("Delete voucher")
@@ -61,10 +67,40 @@ public class Controller {
     })
     @DeleteMapping("delete")
     void deleteVoucher(@RequestParam(name = "id") Long id) {
-
+        service.deleteVoucher(id);
     }
 
-    private Voucher generateVoucherStub() {
-        return new Voucher(1L, "Trip to Sochi", "Desctiption", 50000L, "Russia", "Sochi");
+    private Voucher fromModel(VoucherModel model) {
+        return new Voucher(
+                model.getId(),
+                model.getName(),
+                model.getDescription(),
+                model.getPrice(),
+                model.getDestinationCountry(),
+                model.getDestinationRegion()
+        );
+    }
+
+    private VoucherModel toModel(Voucher voucher) {
+        return new VoucherModel(
+                voucher.getId(),
+                voucher.getName(),
+                voucher.getDescription(),
+                voucher.getPrice(),
+                voucher.getDestinationCountry(),
+                voucher.getDestinationRegion()
+        );
+    }
+
+    private List<Voucher> fromModel(List<VoucherModel> voucherModels) {
+        List<Voucher> result = new ArrayList<>();
+        voucherModels.forEach(m -> result.add(fromModel(m)));
+        return result;
+    }
+
+    private List<VoucherModel> toModel(List<Voucher> vouchers) {
+        List<VoucherModel> result = new ArrayList<>();
+        vouchers.forEach(v -> result.add(toModel(v)));
+        return result;
     }
 }

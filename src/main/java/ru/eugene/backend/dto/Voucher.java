@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Voucher {
     @JsonProperty("id")
-    private long id;
+    private Long id;
 
     @JsonProperty("name")
     private String name;
@@ -19,7 +19,7 @@ public class Voucher {
     private String description;
 
     @JsonProperty("price")
-    private long price;
+    private Long price;
 
     @JsonProperty("destinationCountry")
     private String destinationCountry;
