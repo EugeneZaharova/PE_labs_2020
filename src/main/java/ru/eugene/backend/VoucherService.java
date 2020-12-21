@@ -9,17 +9,18 @@ import ru.eugene.backend.model.VoucherModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AppService {
-    private final AppRepository repository;
+public class VoucherService {
+    private final VoucherRepository repository;
 
     List<VoucherModel> getAllVouchers() {
         return iterableToList(repository.findAll());
     }
 
-    VoucherModel getVoucher(@RequestParam(name = "id") Long id) {
+    VoucherModel getVoucher(@RequestParam(name = "id") UUID id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException());
     }
@@ -40,7 +41,7 @@ public class AppService {
         repository.save(foundModel);
     }
 
-    void deleteVoucher(@RequestParam(name = "id") Long id) {
+    void deleteVoucher(@RequestParam(name = "id") UUID id) {
         //Для того, чтобы если объекта нет, вылетела ошибка
         getVoucher(id);
         repository.deleteById(id);

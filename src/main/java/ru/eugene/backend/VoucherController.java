@@ -12,13 +12,14 @@ import ru.eugene.backend.model.VoucherModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Api(tags = "Vouchers")
 @RequestMapping("/vouchers")
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AppController {
-    private final AppService service;
+public class VoucherController {
+    private final VoucherService service;
 
     @ApiOperation("Get all vouchers")
     @ApiResponses({
@@ -36,7 +37,7 @@ public class AppController {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @GetMapping("get")
-    Voucher getVoucher(@RequestParam(name = "id") Long id) {
+    Voucher getVoucher(@RequestParam(name = "id") UUID id) {
         return fromModel(service.getVoucher(id));
     }
 
@@ -66,7 +67,7 @@ public class AppController {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @DeleteMapping("delete")
-    void deleteVoucher(@RequestParam(name = "id") Long id) {
+    void deleteVoucher(@RequestParam(name = "id") UUID id) {
         service.deleteVoucher(id);
     }
 
