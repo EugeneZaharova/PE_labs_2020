@@ -46,6 +46,8 @@ dependencies {
     implementation 'org.postgresql:postgresql'
     implementation 'org.liquibase:liquibase-core'
     implementation 'javax.persistence:javax.persistence-api'
+    implementation 'com.amazonaws:aws-java-sdk-bom:1.11.930'
+    implementation 'com.amazonaws:aws-java-sdk-s3'
 }
 
 test {

@@ -23,13 +23,12 @@ public class SpringfoxConfig {
     private static Docket create(String basePackage) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .tags(
-                        new Tag("Vouchers", "Vouchers")
+                        new Tag("Vouchers", "Vouchers"),
+                        new Tag("Files", "Files")
                 )
                 .useDefaultResponseMessages(false)
-                .groupName("vouchers")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(basePackage))
-                .paths(PathSelectors.regex("/vouchers.*"))
                 .build()
                 .apiInfo(apiInfo());
     }
