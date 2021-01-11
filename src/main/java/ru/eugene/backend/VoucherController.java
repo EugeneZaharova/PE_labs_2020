@@ -28,7 +28,7 @@ public class VoucherController {
     })
     @GetMapping("list")
     List<Voucher> getAllVouchers() {
-        return fromModel(service.getAllVouchers());
+        return VoucherMapper.fromModel(service.getAllVouchers());
     }
 
     @ApiOperation("Get voucher by id")
@@ -38,7 +38,7 @@ public class VoucherController {
     })
     @GetMapping("get")
     Voucher getVoucher(@RequestParam(name = "id") UUID id) {
-        return fromModel(service.getVoucher(id));
+        return VoucherMapper.fromModel(service.getVoucher(id));
     }
 
     @ApiOperation("Add voucher")
@@ -48,7 +48,7 @@ public class VoucherController {
     })
     @PutMapping("add")
     void addVoucher(@RequestBody Voucher voucher) {
-        service.addVoucher(toModel(voucher));
+        service.addVoucher(VoucherMapper.toModel(voucher));
     }
 
     @ApiOperation("Edit voucher")
@@ -58,7 +58,7 @@ public class VoucherController {
     })
     @PostMapping("edit")
     void editVoucher(@RequestBody Voucher voucher) {
-        service.editVoucher(toModel(voucher));
+        service.editVoucher(VoucherMapper.toModel(voucher));
     }
 
     @ApiOperation("Delete voucher")
@@ -71,37 +71,4 @@ public class VoucherController {
         service.deleteVoucher(id);
     }
 
-    private Voucher fromModel(VoucherModel model) {
-        return new Voucher(
-                model.getId(),
-                model.getName(),
-                model.getDescription(),
-                model.getPrice(),
-                model.getDestinationCountry(),
-                model.getDestinationRegion()
-        );
-    }
-
-    private VoucherModel toModel(Voucher voucher) {
-        return new VoucherModel(
-                voucher.getId(),
-                voucher.getName(),
-                voucher.getDescription(),
-                voucher.getPrice(),
-                voucher.getDestinationCountry(),
-                voucher.getDestinationRegion()
-        );
-    }
-
-    private List<Voucher> fromModel(List<VoucherModel> voucherModels) {
-        List<Voucher> result = new ArrayList<>();
-        voucherModels.forEach(m -> result.add(fromModel(m)));
-        return result;
-    }
-
-    private List<VoucherModel> toModel(List<Voucher> vouchers) {
-        List<VoucherModel> result = new ArrayList<>();
-        vouchers.forEach(v -> result.add(toModel(v)));
-        return result;
-    }
 }

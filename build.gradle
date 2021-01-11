@@ -35,10 +35,6 @@ dependencyManagement {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.5.1'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'io.springfox:springfox-swagger2'
@@ -48,6 +44,9 @@ dependencies {
     implementation 'javax.persistence:javax.persistence-api'
     implementation 'com.amazonaws:aws-java-sdk-bom:1.11.930'
     implementation 'com.amazonaws:aws-java-sdk-s3'
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-core:3.7.0'
 }
 
 test {
