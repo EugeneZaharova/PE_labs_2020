@@ -9,3 +9,28 @@ services:
       POSTGRES_DB: database
     ports:
       - 5432:5432
+
+  nginx:
+    container_name: nginx
+    image: nginx:1.19.2
+    ports:
+      - 8000:8000
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/app.conf
+      - ./static:/var/www/static
+    depends_on:
+      - app
+
+  app:
+    image: openjdk:8-jdk-alpine
+    working_dir: /project
+    build:
+      context: ./
+    volumes:
+      - ./:/project
+    expose:
+      - "8080"
+    command: /bin/ash -c "chmod +x gradlew && ./gradlew bootRun"
+    depends_on:
+      - db
+
