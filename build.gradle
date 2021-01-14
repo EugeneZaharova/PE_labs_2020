@@ -44,6 +44,8 @@ dependencies {
     implementation 'javax.persistence:javax.persistence-api'
     implementation 'com.amazonaws:aws-java-sdk-bom:1.11.930'
     implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'org.springframework:spring-websocket'
+    implementation 'org.springframework:spring-messaging'
     testImplementation 'junit:junit:4.13'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mockito:mockito-core:3.7.0'
