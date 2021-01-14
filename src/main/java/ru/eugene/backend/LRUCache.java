@@ -1,14 +1,15 @@
 package ru.eugene.backend;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 
 public class LRUCache {
     private int capacity;
-    private Queue<String> queue = new LinkedList<>();
-    private Map<String, String> dict = new HashMap<>();
+    private Queue<String> queue = new Queue<>();
+    private Map<String, Element> dict = new HashMap<>();
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
@@ -16,9 +17,9 @@ public class LRUCache {
 
     public String get(String key) {
         if (dict.containsKey(key)) {
-            queue.remove(key);
+            queue.remove(dict.get(key).getNode());
             queue.add(key);
-            return dict.get(key);
+            return dict.get(key).getValue();
         }
         return "-";
     }
@@ -31,12 +32,19 @@ public class LRUCache {
             queue.remove(key);
         }
 
-        queue.add(key);
-        dict.put(key, value);;
+        Queue.Node<String> node = queue.add(key);
+        dict.put(key, new Element(value, node));
     }
 
     public void rem(String key) {
-        queue.remove(key);
-        dict.remove(key);
+        Element item = dict.remove(key);
+        queue.remove(item.getNode());
+    }
+
+    @Data
+    @AllArgsConstructor
+    private static class Element {
+        private String value;
+        private Queue.Node<String> node;
     }
 }
