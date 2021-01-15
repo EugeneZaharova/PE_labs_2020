@@ -25,6 +25,7 @@ services:
     image: openjdk:8-jdk-alpine
     working_dir: /project
     build:
+      dockerfile: Dockerfile
       context: ./
     volumes:
       - ./:/project

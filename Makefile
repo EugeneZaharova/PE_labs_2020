@@ -3,3 +3,5 @@ run:
 
 stop:
 	sudo docker-compose down
+
+restart: stop run
